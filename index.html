@@ -606,6 +606,91 @@
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
       .hero__bg { animation: none; transform: none; }
     }
+
+    /* ── Booking Modal ─────────────────────────────────────── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,.55); backdrop-filter: blur(4px);
+      align-items: center; justify-content: center; padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; animation: modalFadeIn .25s ease; }
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    .modal {
+      background: var(--white); border-radius: 14px;
+      width: 100%; max-width: 540px; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      box-shadow: 0 24px 64px rgba(0,0,0,.22);
+      animation: modalSlideUp .3s ease;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+    .modal__close {
+      position: absolute; top: 1rem; right: 1rem;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: #1a73e8; color: var(--white);
+      font-size: 1.1rem; font-weight: 700; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; border: none; transition: var(--transition);
+      z-index: 1;
+    }
+    .modal__close:hover { background: var(--rust); transform: scale(1.1); }
+    .modal__header {
+      text-align: center; padding: 2.2rem 2rem 1.5rem;
+      border-bottom: 1px solid var(--warm);
+    }
+    .modal__header h2 {
+      font-family: var(--ff-ui); font-size: 1.55rem; font-weight: 700;
+      letter-spacing: .08em; color: var(--ink); text-transform: uppercase;
+    }
+    .modal__body { padding: 1.6rem 2rem 2rem; }
+    .modal__row {
+      display: grid; grid-template-columns: 160px auto 1fr;
+      align-items: center; gap: .6rem 1rem;
+      padding: .75rem 0; border-bottom: 1px solid #f0e8dc;
+    }
+    .modal__row:last-of-type { border-bottom: none; }
+    .modal__field-label {
+      font-family: var(--ff-ui); font-size: .88rem; font-weight: 600;
+      color: var(--ink);
+    }
+    .modal__colon { color: var(--ink); font-weight: 600; }
+    .modal__input, .modal__select {
+      width: 100%; padding: .6rem .85rem;
+      border: 1.5px solid #ccc; border-radius: 6px;
+      font-family: var(--ff-ui); font-size: .88rem; color: var(--ink);
+      background: var(--white); outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    .modal__input:focus, .modal__select:focus {
+      border-color: #1a73e8; box-shadow: 0 0 0 3px rgba(26,115,232,.15);
+    }
+    .modal__input::placeholder { color: #aaa; }
+    .modal__submit {
+      display: block; width: 100%;
+      padding: .85rem; margin-top: 1.4rem;
+      background: #1a73e8; color: var(--white);
+      font-family: var(--ff-ui); font-size: .98rem; font-weight: 700;
+      border: none; border-radius: 8px; cursor: pointer;
+      letter-spacing: .05em; text-transform: uppercase;
+      transition: var(--transition);
+    }
+    .modal__submit:hover { background: #1558b0; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,115,232,.35); }
+    .modal__success {
+      display: none; text-align: center; padding: 1.2rem;
+      background: #e8f5e9; border-radius: 8px; color: #2e7d32;
+      font-family: var(--ff-ui); font-size: .92rem; margin-top: 1rem;
+    }
+    .modal__success.show { display: block; }
+    @media (max-width: 480px) {
+      .modal__row { grid-template-columns: 1fr; gap: .3rem; }
+      .modal__colon { display: none; }
+      .modal__body { padding: 1.2rem; }
+    }
   </style>
 </head>
 <body>
@@ -632,7 +717,7 @@
       <li><a href="#tours">Tours</a></li>
       <li><a href="#about">Why Us</a></li>
       <li><a href="#testimonials">Stories</a></li>
-      <li><a href="#contact" class="nav__cta">Book Now</a></li>
+      <li><a href="#contact" onclick="openBookingModal(); return false;" class="nav__cta">Book Now</a></li>
     </ul>
   </nav>
 
@@ -821,7 +906,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $2,490">$2,490</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -850,7 +935,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $3,150">$3,150</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -879,7 +964,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $4,800">$4,800</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -905,7 +990,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $6,200">$6,200</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -931,7 +1016,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $3,600">$3,600</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -957,7 +1042,7 @@
                   <p class="tour-card__price-from">From</p>
                   <p class="tour-card__price-num" aria-label="Price: $2,890">$2,890</p>
                 </div>
-                <a href="#contact" class="tour-card__btn">Book Now</a>
+                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
               </div>
             </div>
           </article>
@@ -1006,46 +1091,43 @@
         <header class="section__header reveal">
           <p class="label">Traveller Stories</p>
           <h2 id="testi-title">Journeys That Moved Us</h2>
-          <p>Real words from real travellers who discovered the India with RaahiRoutes.</p>
+          <p>Real words from real travellers who discovered the world with RaahiRoutes.</p>
         </header>
 
         <div class="testimonials__track">
 
           <div class="testi-card reveal">
             <div class="testi-card__stars">★★★★★</div>
-            <p class="testi-card__quote">"This is one of the best websites for Goa travel services! Booking hotels and cabs was super easy, and the team recommended the best places to visit in Goa. Everything was well-managed, affordable, and hassle-free. Highly recommended for anyone planning a Goa trip!
-"</p>
+            <p class="testi-card__quote">"The Himalayan trek was the most transformative experience of my life. Our guide Pemba knew every trail, story, and star in the sky. Truly unforgettable."</p>
             <div class="testi-card__author">
-              <class="testi-card__avatar" alt="Sophia R." loading="lazy" />
+              <img class="testi-card__avatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sophia R." loading="lazy" />
               <div>
                 <p class="testi-card__name">Sophia R.</p>
-                <p class="testi-card__location">London, UK · </p>
+                <p class="testi-card__location">London, UK · Himalayan Trek</p>
               </div>
             </div>
           </div>
 
           <div class="testi-card reveal">
             <div class="testi-card__stars">★★★★★</div>
-            <p class="testi-card__quote">"Best Goa travel service website I have used so far. The hotel arrangements were excellent, cab service was always on time, and their suggestions for beaches and sightseeing spots made our vacation unforgettable. Great customer support and smooth experience throughout the trip.
-."</p>
+            <p class="testi-card__quote">"Our Maldives retreat was pure paradise. The team thought of every detail — from the overwater villa to the private sunset snorkelling. Worth every penny."</p>
             <div class="testi-card__author">
-              <class="testi-card__avatar" alt="Milan C.." loading="lazy" />
+              <img class="testi-card__avatar" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marco T." loading="lazy" />
               <div>
-                <p class="testi-card__name">Milan C.</p>
-                <p class="testi-card__location"> India ·</p>
+                <p class="testi-card__name">Marco T.</p>
+                <p class="testi-card__location">Milan, Italy · Maldives Retreat</p>
               </div>
             </div>
           </div>
 
           <div class="testi-card reveal">
             <div class="testi-card__stars">★★★★★</div>
-            <p class="testi-card__quote">"Amazing experience! This website provides the best hotel and cab services in Goa. The staff was very helpful and guided us to the best tourist attractions, cafes, and beaches. Everything was perfectly organized. Definitely the best choice for a Goa vacation!
- RaahiRoutes curated something truly special."</p>
+            <p class="testi-card__quote">"Kenya Safari absolutely blew my mind. Seeing the wildebeest migration live with only 8 people felt so intimate. RaahiRoutes curated something truly special."</p>
             <div class="testi-card__author">
-              <class="testi-card__avatar" alt="Avni K." loading="lazy" />
+              <img class="testi-card__avatar" src="https://randomuser.me/api/portraits/women/68.jpg" alt="Adeola K." loading="lazy" />
               <div>
-                <p class="testi-card__name">Avni K.</p>
-                <p class="testi-card__location">Odisha </p>
+                <p class="testi-card__name">Adeola K.</p>
+                <p class="testi-card__location">Lagos, Nigeria · Kenya Safari</p>
               </div>
             </div>
           </div>
@@ -1099,22 +1181,21 @@
               <div class="contact__detail-icon">📞</div>
               <div>
                 <span class="contact__detail-label">Phone</span>
-                <span class="contact__detail-value">+91 8859951833,</span>
-                <span class="contact__detail-value">+91 8859903053</span>
+                <span class="contact__detail-value">+1 (800) 926-3358</span>
               </div>
             </div>
             <div class="contact__detail">
               <div class="contact__detail-icon">✉️</div>
               <div>
                 <span class="contact__detail-label">Email</span>
-                <span class="contact__detail-value">customersupport@raahiroutes.com</span>
+                <span class="contact__detail-value">hello@RaahiRoutes.com</span>
               </div>
             </div>
             <div class="contact__detail">
               <div class="contact__detail-icon">🕐</div>
               <div>
                 <span class="contact__detail-label">Available</span>
-                <span class="contact__detail-value">Anytime</span>
+                <span class="contact__detail-value">Mon–Fri, 9am–7pm EST</span>
               </div>
             </div>
             <div class="contact__detail">
@@ -1153,7 +1234,13 @@
               <label class="form__label" for="f-tour">Tour of Interest</label>
               <select class="form__select" id="f-tour">
                 <option value="">Select a tour...</option>
-                <option>Goa</option>
+                <option>Himalayan Base Camp Trek</option>
+                <option>Italian Grand Tour</option>
+                <option>Kenya Safari Odyssey</option>
+                <option>Maldivian Overwater Retreat</option>
+                <option>Norwegian Fjords by Kayak</option>
+                <option>Thailand Spirit &amp; Flavour</option>
+                <option>Custom Itinerary</option>
               </select>
             </div>
             <div class="form__group">
@@ -1232,6 +1319,81 @@
   <div class="float-btns" aria-label="Quick actions">
     <a class="float-btn float-btn--wa" href="https://wa.me/18009263358" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">💬</a>
     <button class="float-btn float-btn--top" id="backToTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  </div>
+
+  <!-- ── Booking Modal ─────────────────────────── -->
+  <div class="modal-overlay" id="bookingModal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal">
+      <button class="modal__close" id="modalClose" aria-label="Close booking form">✕</button>
+      <div class="modal__header">
+        <h2 id="modal-title">Book Your Tour</h2>
+      </div>
+      <div class="modal__body">
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-name">Traveller Name</label>
+          <span class="modal__colon">:</span>
+          <input class="modal__input" id="bk-name" type="text" placeholder="Full Name" autocomplete="name" />
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-location">Travel Location</label>
+          <span class="modal__colon">:</span>
+          <select class="modal__select" id="bk-location">
+            <option value="">Select</option>
+            <option>Nepal – Himalayan Trek</option>
+            <option>Italy – Grand Tour</option>
+            <option>Kenya – Safari Odyssey</option>
+            <option>Maldives – Overwater Retreat</option>
+            <option>Norway – Fjords by Kayak</option>
+            <option>Thailand – Cultural Escape</option>
+          </select>
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-email">Email Address</label>
+          <span class="modal__colon">:</span>
+          <input class="modal__input" id="bk-email" type="email" placeholder="mail@example.com" autocomplete="email" />
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-phone">Phone Number</label>
+          <span class="modal__colon">:</span>
+          <input class="modal__input" id="bk-phone" type="tel" placeholder="Phone number" autocomplete="tel" />
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-start">Journey Start Date</label>
+          <span class="modal__colon">:</span>
+          <input class="modal__input" id="bk-start" type="date" />
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-return">Journey Return Date</label>
+          <span class="modal__colon">:</span>
+          <input class="modal__input" id="bk-return" type="date" />
+        </div>
+
+        <div class="modal__row">
+          <label class="modal__field-label" for="bk-travellers">No: of Travellers</label>
+          <span class="modal__colon">:</span>
+          <select class="modal__select" id="bk-travellers">
+            <option value="">Select</option>
+            <option>1 – Solo</option>
+            <option>2 – Couple</option>
+            <option>3 – Small Group</option>
+            <option>4–6 – Group</option>
+            <option>7–10 – Large Group</option>
+            <option>10+ – Custom Group</option>
+          </select>
+        </div>
+
+        <button class="modal__submit" onclick="submitBooking()">Submit</button>
+        <div class="modal__success" id="modal-success">
+          ✅ Your booking request has been received! We'll contact you within 24 hours.
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ── JavaScript ─────────────────────────────── -->
@@ -1349,6 +1511,63 @@
       ['f-name','f-lname','f-email','f-phone','f-tour','f-msg'].forEach(id => {
         document.getElementById(id).value = '';
       });
+    }
+
+    // ── Booking Modal
+    const bookingModal  = document.getElementById('bookingModal');
+    const modalCloseBtn = document.getElementById('modalClose');
+
+    function openBookingModal(tourName) {
+      bookingModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('modal-success').classList.remove('show');
+      if (tourName) {
+        const sel = document.getElementById('bk-location');
+        for (let i = 0; i < sel.options.length; i++) {
+          if (sel.options[i].text.toLowerCase().includes(tourName.toLowerCase())) {
+            sel.selectedIndex = i; break;
+          }
+        }
+      }
+      setTimeout(() => document.getElementById('bk-name').focus(), 100);
+    }
+
+    function closeBookingModal() {
+      bookingModal.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    modalCloseBtn.addEventListener('click', closeBookingModal);
+    bookingModal.addEventListener('click', function(e) {
+      if (e.target === bookingModal) closeBookingModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeBookingModal();
+    });
+
+    function submitBooking() {
+      const name  = document.getElementById('bk-name').value.trim();
+      const loc   = document.getElementById('bk-location').value;
+      const email = document.getElementById('bk-email').value.trim();
+      const phone = document.getElementById('bk-phone').value.trim();
+      const start = document.getElementById('bk-start').value;
+      const ret   = document.getElementById('bk-return').value;
+      const trav  = document.getElementById('bk-travellers').value;
+
+      if (!name || !loc || !email || !phone || !start || !ret || !trav) {
+        alert('Please fill in all fields before submitting.');
+        return;
+      }
+      if (!email.includes('@')) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+      document.getElementById('modal-success').classList.add('show');
+      ['bk-name','bk-email','bk-phone','bk-start','bk-return'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      document.getElementById('bk-location').selectedIndex = 0;
+      document.getElementById('bk-travellers').selectedIndex = 0;
     }
 
     // ── Active nav link on scroll
