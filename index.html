@@ -1303,7 +1303,7 @@
             </div>
             <button class="form__submit" onclick="submitForm()">Send Enquiry →</button>
             <div class="form__success" id="form-success" role="alert">
-              ✅ Thank you! We'll have a personalised itinerary in your inbox within 24 hours.
+              ✅ Thank you! We'll have a personalised itinerary in your inbox within 12 hours.
             </div>
           </div>
 
@@ -1599,7 +1599,7 @@
       if (e.key === 'Escape') closeBookingModal();
     });
 
-    function submitBooking() {
+    async function submitBooking() {
       const name  = document.getElementById('bk-name').value.trim();
       const loc   = document.getElementById('bk-location').value;
       const email = document.getElementById('bk-email').value.trim();
@@ -1651,7 +1651,7 @@ function setBarRating(track, key) {
   document.getElementById('score-' + (key === 'overall2' ? 'overall' : key)).textContent = score.toFixed(1) + ' ★';
 }
 
-function submitRating() {
+async function submitRating() {
   const overall = document.querySelector('input[name="overall"]:checked');
   if (!overall) { alert('Please select an overall star rating.'); return; }
   const anyBar = Object.values(barRatings).some(v => v > 0);
