@@ -1666,20 +1666,21 @@ async function submitRating() {
   comment: document.getElementById('rate-comment').value
 };
 
-fetch("https://script.google.com/macros/s/AKfycbwC31RZPHqwbL5nMYWsI3vgtO53OcrEv5CdhpjvL3DQkcijIylBRmnxuP2YRMnoJeBT/exec", {
+fetch("https://script.google.com/macros/s/AKfycby6Pw7RDg-mCi-ChsKgDfHumENLvFUjnPCl0-jldVEtZsqEbNff_mh7j9vOqj3VA97k/exec", {
   method: "POST",
-  body: JSON.stringify(reviewData),
+  mode: "no-cors",
   headers: {
     "Content-Type": "application/json"
-  }
+  },
+  body: JSON.stringify(reviewData)
 })
-.then(response => response.json())
-.then(data => {
-  console.log("Success:", data);
+.then(() => {
+console.log("Review submitted successfully");
 })
-.catch(error => {
-  console.error("Error:", error);
+.catch((err) => {
+console.error("Error:", err);
 });
+
   const newScore     = parseFloat(overall.value);
   const currentCount = parseInt(document.getElementById('avg-count').textContent.replace(/\D/g,''));
   const currentAvg   = parseFloat(document.getElementById('avg-score').textContent);
