@@ -810,6 +810,9 @@
             Explore Tours
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
+          <a href="#contact" class="btn btn--outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;">
+  📩 Send Enquiry
+</a>
           <a href="#destinations" class="btn btn--outline">View Destinations</a>
         </div>
 
@@ -1637,6 +1640,9 @@
         a.style.color = a.getAttribute('href') === '#' + current ? 'var(--copper)' : '';
       });
     });
+
+    const Booking_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzm74v_qtAitVq6e1FqMwABPPoJVpvO9WQGlf-DWzs8vsOYr6d0Hgm6dk7bnCK-cDw/exec';
+    const REVIEW_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwC31RZPHqwbL5nMYWsI3vgtO53OcrEv5CdhpjvL3DQkcijIylBRmnxuP2YRMnoJeBT/exec';
     // ── Rate Us
 const barRatings = { guide: 0, accomm: 0, value: 0, overall2: 0 };
 
