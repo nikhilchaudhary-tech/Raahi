@@ -1657,6 +1657,29 @@ async function submitRating() {
   const anyBar = Object.values(barRatings).some(v => v > 0);
   if (!anyBar) { alert('Please rate at least one category using the bars.'); return; }
 
+  const reviewData = {
+  overallStars: overall.value,
+  guideRating: barRatings.guide,
+  accommRating: barRatings.accomm,
+  valueRating: barRatings.value,
+  overallRating: barRatings.overall2,
+  comment: document.getElementById('rate-comment').value
+};
+
+fetch("https://script.google.com/macros/s/AKfycbwC31RZPHqwbL5nMYWsI3vgtO53OcrEv5CdhpjvL3DQkcijIylBRmnxuP2YRMnoJeBT/exec", {
+  method: "POST",
+  body: JSON.stringify(reviewData),
+  headers: {
+    "Content-Type": "application/json"
+  }
+})
+.then(response => response.json())
+.then(data => {
+  console.log("Success:", data);
+})
+.catch(error => {
+  console.error("Error:", error);
+});
   const newScore     = parseFloat(overall.value);
   const currentCount = parseInt(document.getElementById('avg-count').textContent.replace(/\D/g,''));
   const currentAvg   = parseFloat(document.getElementById('avg-score').textContent);
