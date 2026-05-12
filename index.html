@@ -745,7 +745,7 @@
 .rate-badge { padding: .3rem .8rem; border-radius: 99px; font-size: .78rem; font-weight: 600; background: #fff8ec; color: #b8730a; border: 1px solid #f5dda0; }
   </style>
 
-    <script type="application/ld+json">
+    <script> type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TravelAgency",
@@ -755,6 +755,12 @@
       "description": "Affordable travel packages and tour bookings worldwide",
        }
     </script>
+   
+   <!-- EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>
+    emailjs.init('80BKsH9Em3Z5DSTCi');
+  </script>
 
 </head>
 <body>
@@ -1230,21 +1236,21 @@
               <div class="contact__detail-icon">📞</div>
               <div>
                 <span class="contact__detail-label">Phone</span>
-                <span class="contact__detail-value">+1 (800) 926-3358</span>
+                <span class="contact__detail-value">+91 8859951833</span>
               </div>
             </div>
             <div class="contact__detail">
               <div class="contact__detail-icon">✉️</div>
               <div>
                 <span class="contact__detail-label">Email</span>
-                <span class="contact__detail-value">hello@RaahiRoutes.com</span>
+                <span class="contact__detail-value">customersupport@raahiroutes.com</span>
               </div>
             </div>
             <div class="contact__detail">
               <div class="contact__detail-icon">🕐</div>
               <div>
                 <span class="contact__detail-label">Available</span>
-                <span class="contact__detail-value">Mon–Fri, 9am–7pm EST</span>
+                <span class="contact__detail-value">Mon–Fri, 9am–6pm EST</span>
               </div>
             </div>
             <div class="contact__detail">
@@ -1668,6 +1674,73 @@ function submitRating() {
     document.getElementById('bar-' + k).style.width = '0%';
     const el = document.getElementById('score-' + (k === 'overall2' ? 'overall' : k));
     if (el) el.textContent = '–';
+  });
+}
+
+// ── Contact Form with EmailJS
+async function submitForm() {
+
+  // Get all values from form
+  const firstName = document.getElementById('f-name').value.trim();
+  const lastName  = document.getElementById('f-lname').value.trim();
+  const email     = document.getElementById('f-email').value.trim();
+  const phone     = document.getElementById('f-phone').value.trim();
+  const tour      = document.getElementById('f-tour').value;
+  const message   = document.getElementById('f-msg').value.trim();
+
+  // Validation checks
+  if (!firstName || !email || !message) {
+    alert('Please fill in all required fields marked with *');
+    return;
+  }
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address');
+    return;
+  }
+
+  // Change button to loading state
+  const btn = document.querySelector('.form__submit');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  // EmailJS template parameters
+  // These names must match your EmailJS template variables
+  const templateParams = {
+    from_name:  firstName + ' ' + lastName,
+    from_email: email,
+    phone:      phone   || 'Not provided',
+    tour:       tour    || 'Not selected',
+    message:    message
+  };
+
+  // Send email via EmailJS
+  emailjs.send(
+    'service_911l514',    // ← Replace with your Service ID
+    'template_lr0sxxo',   // ← Replace with your Template ID
+    templateParams
+  )
+
+  .then(() => {
+    // Email sent successfully
+    document.getElementById('form-success').classList.add('show');
+    btn.textContent = 'Send Enquiry →';
+    btn.disabled = false;
+
+    // Clear all form fields
+    document.getElementById('f-name').value  = '';
+    document.getElementById('f-lname').value = '';
+    document.getElementById('f-email').value = '';
+    document.getElementById('f-phone').value = '';
+    document.getElementById('f-tour').value  = '';
+    document.getElementById('f-msg').value   = '';
+  })
+
+  .catch((error) => {
+    // Email failed to send
+    console.error('EmailJS error:', error);
+    alert('Failed to send. Please try again or email us directly.');
+    btn.textContent = 'Send Enquiry →';
+    btn.disabled = false;
   });
 }
   </script>
