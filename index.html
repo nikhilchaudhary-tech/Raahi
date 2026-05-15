@@ -295,97 +295,97 @@
   font-family: var(--ff-ui);
 }
 
-/* Slideshow */
-.dest__slideshow {
-  position: relative; border-radius: 14px;
-  overflow: hidden; height: 600px;
-  box-shadow: 0 8px 40px rgba(26,18,8,.15);
+/* Grid — same as before */
+.dest__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 380px 280px;
+  gap: 1.2rem;
 }
-.dest__slide {
+.dest__card {
+  position: relative; border-radius: 12px;
+  overflow: hidden; color: var(--white);
+  display: block; text-decoration: none;
+}
+.dest__card--featured { grid-row: span 2; }
+
+/* Slideshow inside each card */
+.dest__card__slides {
+  position: relative; width: 100%; height: 100%;
+}
+.dest__card__slide {
   position: absolute; inset: 0;
-  opacity: 0; transition: opacity .8s ease;
-  text-decoration: none; display: block;
+  opacity: 0; transition: opacity .7s ease;
 }
-.dest__slide.active { opacity: 1; z-index: 1; }
-.dest__slide img {
+.dest__card__slide.active { opacity: 1; z-index: 1; }
+.dest__card__slide img {
   width: 100%; height: 100%; object-fit: cover;
-  transition: transform 8s ease;
+  transition: transform 7s ease;
 }
-.dest__slide.active img { transform: scale(1.05); }
-.dest__slide__overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,.75) 0%, rgba(0,0,0,.1) 60%);
+.dest__card__slide.active img { transform: scale(1.06); }
+
+/* Overlay gradient */
+.dest__card__overlay {
+  position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(to top, rgba(0,0,0,.72) 0%, transparent 55%);
   display: flex; flex-direction: column;
-  justify-content: flex-end; padding: 2.5rem;
+  justify-content: flex-end; padding: 1.8rem;
+  pointer-events: none;
 }
-.dest__slide__region {
-  font-family: var(--ff-ui); font-size: .72rem; font-weight: 600;
-  letter-spacing: .18em; text-transform: uppercase;
-  color: var(--warm); margin-bottom: .4rem;
+.dest__card__region {
+  font-family: var(--ff-ui); font-size: .7rem;
+  letter-spacing: .16em; text-transform: uppercase;
+  color: var(--warm); margin-bottom: .3rem;
 }
-.dest__slide__name {
-  font-family: var(--ff-display); font-size: clamp(2rem, 5vw, 3rem);
-  font-weight: 700; color: var(--white); line-height: 1.1;
-  margin-bottom: .6rem;
-}
-.dest__slide__desc {
-  font-family: var(--ff-ui); font-size: .92rem;
-  color: rgba(255,255,255,.8); max-width: 480px; line-height: 1.6;
+.dest__card__name {
+  font-family: var(--ff-display); font-size: 1.55rem; font-weight: 700;
 }
 
-/* Arrow Buttons */
-.dest__arrow {
-  position: absolute; top: 50%; z-index: 2;
-  transform: translateY(-50%);
-  width: 48px; height: 48px; border-radius: 50%;
-  background: rgba(255,255,255,.2); border: 1.5px solid rgba(255,255,255,.35);
-  backdrop-filter: blur(8px); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: white; font-size: 1.2rem;
-  transition: var(--transition);
+/* Dot indicators inside each card */
+.dest__card__dots {
+  position: absolute; bottom: 1rem; right: 1rem;
+  display: flex; gap: .4rem; z-index: 3;
 }
-.dest__arrow:hover { background: var(--copper); border-color: var(--copper); }
-.dest__arrow--prev { left: 1.2rem; }
-.dest__arrow--next { right: 1.2rem; }
-
-/* Dot Indicators */
-.dest__dots {
-  position: absolute; bottom: 1.4rem; left: 50%;
-  transform: translateX(-50%);
-  display: flex; gap: .5rem; z-index: 2;
-}
-.dest__dot {
-  width: 8px; height: 8px; border-radius: 99px;
+.dest__card__dot {
+  width: 7px; height: 7px; border-radius: 99px;
   background: rgba(255,255,255,.45); border: none;
-  cursor: pointer; transition: all .35s ease; padding: 0;
+  cursor: pointer; padding: 0; transition: all .3s ease;
 }
-.dest__dot.active {
-  background: var(--white); width: 24px;
+.dest__card__dot.active {
+  background: var(--white); width: 20px;
 }
 
-/* Thumbnail strip */
-.dest__thumbs {
-  display: flex; gap: .8rem; margin-top: 1.2rem;
-  overflow-x: auto; padding-bottom: .4rem;
+/* Arrow on hover */
+.dest__card__arrow {
+  position: absolute; top: 50%; z-index: 3;
+  transform: translateY(-50%);
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,.2);
+  border: 1px solid rgba(255,255,255,.3);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: .9rem; cursor: pointer;
+  opacity: 0; transition: var(--transition);
 }
-.dest__thumbs::-webkit-scrollbar { height: 4px; }
-.dest__thumbs::-webkit-scrollbar-thumb { background: var(--warm); border-radius: 99px; }
-.dest__thumb {
-  flex: 0 0 120px; height: 76px; border-radius: 8px;
-  overflow: hidden; cursor: pointer; border: 2.5px solid transparent;
-  transition: var(--transition); opacity: .65;
-}
-.dest__thumb.active { border-color: var(--copper); opacity: 1; }
-.dest__thumb img { width: 100%; height: 100%; object-fit: cover; }
-.dest__thumb:hover { opacity: 1; }
+.dest__card:hover .dest__card__arrow { opacity: 1; }
+.dest__card__arrow:hover { background: var(--copper); }
+.dest__card__arrow--prev { left: .7rem; }
+.dest__card__arrow--next { right: .7rem; }
 
+/* ── Mobile Fix ─────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .dest__slideshow { height: 320px; }
-  .dest__slide__name { font-size: 1.8rem; }
-  .dest__slide__desc { display: none; }
-  .dest__thumbs { display: none; }
+  .dest__grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .dest__card--featured {
+    grid-row: span 1;
+    height: 300px;
+  }
+  .dest__card {
+    height: 220px;
+  }
 }
-
     /* ── Tours ─────────────────────────────────────────────── */
     .tours { background: var(--sand); }
     .tours__filters { display: flex; gap: .6rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
@@ -798,17 +798,211 @@
 .rate-dist__count { font-size: .82rem; color: #888; }
 .rate-badges { display: flex; flex-wrap: wrap; gap: .5rem; }
 .rate-badge { padding: .3rem .8rem; border-radius: 99px; font-size: .78rem; font-weight: 600; background: #fff8ec; color: #b8730a; border: 1px solid #f5dda0; }
+
+/* ── Packages Section ──────────────────────────────── */
+.packages-section-wrapper {
+  text-align: center;
+  padding: 1rem 0 2rem;
+}
+.packages-section-wrapper .label {
+  margin-bottom: 1.8rem;
+  display: block;
+}
+.packages-section-wrapper h2 {
+  margin: .5rem 0 2.5rem;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+}
+.packages-region-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.packages-region-btn {
+  font-family: var(--ff-ui);
+  font-size: .95rem;
+  font-weight: 600;
+  padding: .85rem 2.2rem;
+  border-radius: 99px;
+  border: 2px solid var(--copper);
+  color: var(--copper);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  letter-spacing: .04em;
+  box-shadow: 0 2px 12px rgba(184,115,51,.10);
+  text-decoration: none;
+}
+.packages-region-btn:hover {
+  background: var(--copper);
+  color: var(--white);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(184,115,51,.28);
+}
+.packages-region-btn .pkg-btn-icon {
+  font-size: 1.2rem;
+}
+.packages-region-btn .pkg-btn-arrow {
+  font-size: .75rem;
+  opacity: .6;
+  transition: transform var(--transition);
+}
+.packages-region-btn:hover .pkg-btn-arrow {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+/* PDF List Page */
+.pkg-page {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  background: var(--cream);
+  overflow-y: auto;
+}
+.pkg-page.open { display: block; }
+.pkg-page__nav {
+  position: sticky;
+  top: 0;
+  background: rgba(253,248,241,.96);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--warm);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 10;
+}
+.pkg-page__back {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--ff-ui);
+  font-size: .9rem;
+  font-weight: 600;
+  color: var(--copper);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .4rem .8rem;
+  border-radius: 99px;
+  transition: var(--transition);
+}
+.pkg-page__back:hover {
+  background: rgba(184,115,51,.1);
+}
+.pkg-page__title {
+  font-family: var(--ff-display);
+  font-size: 1.25rem;
+  color: var(--ink);
+}
+.pkg-page__body {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 5rem;
+}
+.pkg-page__heading {
+  font-family: var(--ff-display);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  margin-bottom: .5rem;
+  color: var(--ink);
+}
+.pkg-page__sub {
+  font-family: var(--ff-ui);
+  font-size: .95rem;
+  color: #7a6248;
+  margin-bottom: 2.5rem;
+}
+.pkg-pdf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.2rem;
+}
+.pkg-pdf-card {
+  background: var(--white);
+  border: 1.5px solid var(--warm);
+  border-radius: 14px;
+  padding: 1.5rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: var(--transition);
+  box-shadow: 0 2px 12px rgba(26,18,8,.05);
+}
+.pkg-pdf-card:hover {
+  border-color: var(--copper);
+  box-shadow: 0 8px 32px rgba(184,115,51,.15);
+  transform: translateY(-3px);
+}
+.pkg-pdf-card__icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+.pkg-pdf-card__name {
+  font-family: var(--ff-ui);
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.45;
+  flex: 1;
+}
+.pkg-pdf-card__actions {
+  display: flex;
+  gap: .6rem;
+}
+.pkg-pdf-card__open {
+  flex: 1;
+  font-family: var(--ff-ui);
+  font-size: .82rem;
+  font-weight: 700;
+  padding: .55rem .9rem;
+  border-radius: 99px;
+  background: var(--copper);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .35rem;
+}
+.pkg-pdf-card__open:hover { background: var(--rust); }
+.pkg-pdf-card__dl {
+  font-family: var(--ff-ui);
+  font-size: .82rem;
+  font-weight: 600;
+  padding: .55rem .9rem;
+  border-radius: 99px;
+  border: 1.5px solid var(--copper);
+  color: var(--copper);
+  background: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+}
+.pkg-pdf-card__dl:hover { background: var(--copper); color: var(--white); }
   </style>
 
-    <script> type="application/ld+json">
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "TravelAgency",
       "name": "RaahiRoutes",
       "url": "http://raahiroutes.com",
       "email": "welcomevatri@gmail.com",
-      "description": "Affordable travel packages and tour bookings worldwide",
-       }
+      "description": "Affordable travel packages and tour bookings worldwide"
+    }
     </script>
    
    <!-- EmailJS -->
@@ -837,9 +1031,10 @@
     </button>
 
     <ul class="nav__links" id="navLinks" role="list">
+
       <button class="nav__close-btn" id="navClose" aria-label="Close menu">✕</button>
       <li><a href="#destinations">Destinations</a></li>
-      <li><a href="#tours">Tours</a></li>
+      <li><a href="#Packages">Packages</a></li>
       <li><a href="#about">Why Us</a></li>
       <li><a href="#testimonials">Stories</a></li>
       <li><a href="#contact" onclick="openBookingModal(); return false;" class="nav__cta">Book Now</a></li>
@@ -861,8 +1056,8 @@
           Handcrafted travel experiences for the curious soul — from Himalayan trails to Mediterranean coastlines.
         </p>
         <div class="hero__actions">
-          <a href="#tours" class="btn btn--primary" aria-label="Explore our tour packages">
-            Explore Tours
+          <a href="#Packages" class="btn btn--primary" aria-label="Explore our tour packages">
+            Explore Packages
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
           <a href="#contact" class="btn btn--outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'}); return false;">
@@ -870,8 +1065,7 @@
 </a>
           <a href="#destinations" class="btn btn--outline">View Destinations</a>
         </div>
-
-        
+        </div>
       <div class="hero__scroll" aria-hidden="true">Scroll</div>
     </section>
 
@@ -896,265 +1090,83 @@
     </section>
 
     <!-- Destinations -->
-    <section class="destinations" id="destinations" aria-labelledby="dest-title">
-      <div class="container">
-        <header class="section__header reveal">
-          <p class="label">Where to next</p>
-          <h2 id="dest-title">Iconic Destinations</h2>
-          <p>From lush rainforests to ancient deserts — every corner of the planet holds a story waiting for you.</p>
-        </header>
+<section class="destinations" id="destinations" aria-labelledby="dest-title">
+  <div class="container">
+    <header class="section__header reveal">
+      <p class="label">Where to next</p>
+      <h2 id="dest-title">Iconic Destinations</h2>
+      <p>From lush rainforests to ancient deserts — every corner of India holds a story waiting for you.</p>
+    </header>
 
-    <div class="dest__slideshow reveal" id="destSlideshow">
+    <div class="dest__grid reveal" role="list">
 
-      <!-- Slide 1 — Change image src and text to your own -->
-      <a class="dest__slide active" href="#contact" aria-label="Explore Destination 1">
-        <img src="images/beach.jpeg" alt="Your destination 1" loading="lazy" />
-        <div class="dest__slide__overlay">
-          <p class="dest__slide__region">Goa Beaches</p>
-          <h3 class="dest__slide__name"></h3>
-          <p class="dest__slide__desc">Goa Beaches offer the perfect blend of relaxation, adventure, and tropical beauty. From the lively shores of Baga and Calangute to the peaceful vibes of Palolem and Morjim, Goa’s coastline is a paradise for every traveller. Enjoy golden sunsets, thrilling water sports, beachside cafés, seafood delicacies, and unforgettable moments by the Arabian Sea with RaahiRoutes.
-</p>
-        </div>
-      </a>
+      <!-- Card 1 — FEATURED (left big card) -->
+      <div class="dest__card dest__card--featured" role="listitem" data-id="1"
+           data-slides='[
+             {"img":"images/1.jpeg","region":"Goa","name":"Beach"},
+             {"img":"images/2.jpeg","region":"goa","name":"Beach"},
+             {"img":"images/3.jpeg","region":"goa","name":"Beach"},
+             {"img":"images/4.jpeg","region":"goa","name":"Beach"}
+           ]'>
+      </div>
 
-      <!-- Slide 2 -->
-      <a class="dest__slide" href="#contact" aria-label="Explore Destination 2">
-        <img src="images/2.jpeg" alt="Your destination 2" loading="lazy" />
-        <div class="dest__slide__overlay">
-          <p class="dest__slide__region">Goa Beaches</p>
-          <h3 class="dest__slide__name"></h3>
-          <p class="dest__slide__desc">Goa Beaches offer the perfect blend of relaxation, adventure, and tropical beauty. From the lively shores of Baga and Calangute to the peaceful vibes of Palolem and Morjim, Goa’s coastline is a paradise for every traveller. Enjoy golden sunsets, thrilling water sports, beachside cafés, seafood delicacies, and unforgettable moments by the Arabian Sea with RaahiRoutes.
-</p>
-        </div>
-      </a>
+      <!-- Card 2 — Top right -->
+      <div class="dest__card" role="listitem" data-id="2"
+           data-slides='[
+             {"img":"images/6.jpeg","region":"South India","name":"Goa"},
+             {"img":"images/7.jpeg","region":"South India","name":"Goa"},
+             {"img":"images/8.jpeg","region":"South India","name":"Goa"},
+             {"img":"images/9.jpeg","region":"South India","name":"Goa"}
+           ]'>
+      </div>
 
-      <!-- Slide 3 -->
-      <a class="dest__slide" href="#contact" aria-label="Explore Destination 3">
-        <img src="images/3.jpeg" alt="Your destination 3" loading="lazy" />
-        <div class="dest__slide__overlay">
-          <p class="dest__slide__region">Goa Beaches</p>
-          <h3 class="dest__slide__name"></h3>
-          <p class="dest__slide__desc">Goa Beaches offer the perfect blend of relaxation, adventure, and tropical beauty. From the lively shores of Baga and Calangute to the peaceful vibes of Palolem and Morjim, Goa’s coastline is a paradise for every traveller. Enjoy golden sunsets, thrilling water sports, beachside cafés, seafood delicacies, and unforgettable moments by the Arabian Sea with RaahiRoutes.
-</p>
-        </div>
-      </a>
-
-      <!-- Slide 4 -->
-      <a class="dest__slide" href="#contact" aria-label="Explore Destination 4">
-        <img src="images/4.jpeg" alt="Your destination 4" loading="lazy" />
-        <div class="dest__slide__overlay">
-          <p class="dest__slide__region">Beaches</p>
-          <h3 class="dest__slide__name"></h3>
-          <p class="dest__slide__desc">Beaches offer the perfect blend of relaxation, adventure, and tropical beauty. From the lively shores of Baga and Calangute to the peaceful vibes of Palolem and Morjim, Goa’s coastline is a paradise for every traveller. Enjoy golden sunsets, thrilling water sports, beachside cafés, seafood delicacies, and unforgettable moments by the Arabian Sea with RaahiRoutes.
-</p>
-        </div>
-      </a>
-
-      <!-- Arrow Buttons -->
-      <button class="dest__arrow dest__arrow--prev" onclick="moveSlide(-1)" aria-label="Previous destination">&#8592;</button>
-      <button class="dest__arrow dest__arrow--next" onclick="moveSlide(1)" aria-label="Next destination">&#8594;</button>
-
-      <!-- Dot Indicators -->
-      <div class="dest__dots" id="destDots" role="tablist" aria-label="Destination slides"></div>
+      <!-- Card 3 — Bottom right -->
+      <div class="dest__card" role="listitem" data-id="3"
+           data-slides='[
+             {"img":"images/10.jpeg","region":"South India","name":""},
+             {"img":"images/11.jpeg","region":"South India","name":""},
+             {"img":"images/12.jpeg","region":"South India","name":""},
+             {"img":"images/13.jpeg","region":"South India","name":""},
+             {"img":"images/14.jpeg","region":"South India","name":""}
+           ]'>
+      </div>
 
     </div>
-
-    <!-- Thumbnail Strip -->
-    <div class="dest__thumbs" id="destThumbs"></div>
-
   </div>
 </section>
 
-    <!-- Tours -->
-    <section class="tours" id="tours" aria-labelledby="tours-title">
-      <div class="container">
-        <header class="section__header reveal">
-          <p class="label">Handpicked Packages</p>
-          <h2 id="tours-title">Featured Tours</h2>
-          <p>Every itinerary is crafted by local experts who love these places as much as you will.</p>
-        </header>
-
-        <div class="tours__filters" role="group" aria-label="Filter tours by category">
-          <button class="filter-btn" aria-pressed="true" data-filter="all">All Tours</button>
-          <button class="filter-btn" aria-pressed="false" data-filter="adventure">Adventure</button>
-          <button class="filter-btn" aria-pressed="false" data-filter="cultural">Cultural</button>
-          <button class="filter-btn" aria-pressed="false" data-filter="wildlife">Wildlife</button>
-          <button class="filter-btn" aria-pressed="false" data-filter="luxury">Luxury</button>
-        </div>
-
-        <div class="tours__grid" id="toursGrid" aria-live="polite" aria-label="Tour packages list">
-
-          <!-- Tour 1 -->
-          <article class="tour-card reveal" data-category="adventure" aria-labelledby="tour1-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600&q=80" alt="Trekkers ascending a rocky Himalayan trail with snow peaks behind" loading="lazy" />
-              <span class="tour-card__badge">Bestseller</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 5 stars">★★★★★</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">
-                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                  14 Days
-                </span>
-                <span class="tour-card__meta-item">
-                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2a3 3 0 100 6 3 3 0 000-6zM2 14s-1 0-1-1 1-4 7-4 7 3 7 4-1 1-1 1H2z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                  Max 12
-                </span>
-                <span class="tour-card__meta-item">🏔️ Nepal</span>
-              </div>
-              <h3 class="tour-card__title" id="tour1-title">Himalayan Base Camp Trek</h3>
-              <p class="tour-card__desc">A legendary journey through rhododendron forests and glacier moraines to the foot of the world's highest peak.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $2,490">$2,490</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Tour 2 -->
-          <article class="tour-card reveal" data-category="cultural" aria-labelledby="tour2-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1587132137056-bfbf0166836e?w=600&q=80" alt="Ancient Colosseum in Rome lit at golden hour" loading="lazy" />
-              <span class="tour-card__badge">New</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 5 stars">★★★★★</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">
-                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                  10 Days
-                </span>
-                <span class="tour-card__meta-item">Max 16</span>
-                <span class="tour-card__meta-item">🏛️ Italy</span>
-              </div>
-              <h3 class="tour-card__title" id="tour2-title">Italian Grand Tour</h3>
-              <p class="tour-card__desc">Rome, Florence, Venice — timeless cities where art, cuisine, and history unfold around every corner.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $3,150">$3,150</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Tour 3 -->
-          <article class="tour-card reveal" data-category="wildlife" aria-labelledby="tour3-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=80" alt="Elephant herd crossing the African savanna at dusk" loading="lazy" />
-              <span class="tour-card__badge">Popular</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 5 stars">★★★★★</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">
-                  <svg aria-hidden="true" width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="M8 5v3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-                  8 Days
-                </span>
-                <span class="tour-card__meta-item">Max 8</span>
-                <span class="tour-card__meta-item">🦁 Kenya</span>
-              </div>
-              <h3 class="tour-card__title" id="tour3-title">Kenya Safari Odyssey</h3>
-              <p class="tour-card__desc">Witness the Great Migration and Africa's Big Five from intimate tented camps in the Maasai Mara.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $4,800">$4,800</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Tour 4 -->
-          <article class="tour-card reveal" data-category="luxury" aria-labelledby="tour4-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=600&q=80" alt="Overwater bungalows in turquoise Maldivian lagoon" loading="lazy" />
-              <span class="tour-card__badge">Luxury</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 5 stars">★★★★★</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">7 Days</span>
-                <span class="tour-card__meta-item">💑 Couples</span>
-                <span class="tour-card__meta-item">🏝️ Maldives</span>
-              </div>
-              <h3 class="tour-card__title" id="tour4-title">Maldivian Overwater Retreat</h3>
-              <p class="tour-card__desc">Private villas, coral reefs, and sunset dinners on the water — an exclusive escape for couples seeking paradise.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $6,200">$6,200</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Tour 5 -->
-          <article class="tour-card reveal" data-category="adventure" aria-labelledby="tour5-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=600&q=80" alt="Kayakers paddling through a Norwegian fjord surrounded by steep cliffs" loading="lazy" />
-              <span class="tour-card__badge">Active</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 4 stars">★★★★☆</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">9 Days</span>
-                <span class="tour-card__meta-item">Max 10</span>
-                <span class="tour-card__meta-item">⛰️ Norway</span>
-              </div>
-              <h3 class="tour-card__title" id="tour5-title">Norwegian Fjords by Kayak</h3>
-              <p class="tour-card__desc">Paddle through UNESCO-listed fjords, camp under the midnight sun, and encounter Norway's untamed wilderness.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $3,600">$3,600</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-          <!-- Tour 6 -->
-          <article class="tour-card reveal" data-category="cultural" aria-labelledby="tour6-title">
-            <div class="tour-card__img">
-              <img src="https://images.unsplash.com/photo-1609766418204-94aae0ecfdfc?w=600&q=80" alt="Golden temples and lanterns of Chiang Mai Old City at dusk" loading="lazy" />
-              <span class="tour-card__badge">Trending</span>
-              <button class="tour-card__wish" aria-label="Add to wishlist" onclick="toggleWish(this)">♡</button>
-            </div>
-            <div class="tour-card__body">
-              <div class="tour-card__stars" aria-label="Rating: 5 stars">★★★★★</div>
-              <div class="tour-card__meta">
-                <span class="tour-card__meta-item">12 Days</span>
-                <span class="tour-card__meta-item">Max 14</span>
-                <span class="tour-card__meta-item">🏯 Thailand</span>
-              </div>
-              <h3 class="tour-card__title" id="tour6-title">Thailand Spirit &amp; Flavour</h3>
-              <p class="tour-card__desc">From bustling Bangkok street markets to tranquil temple retreats in Chiang Mai — taste, see, and feel Thailand's soul.</p>
-              <div class="tour-card__footer">
-                <div class="tour-card__price">
-                  <p class="tour-card__price-from">From</p>
-                  <p class="tour-card__price-num" aria-label="Price: $2,890">$2,890</p>
-                </div>
-                <button class="tour-card__btn" onclick="openBookingModal(this.closest('.tour-card').querySelector('.tour-card__title').textContent)">Book Now</button>
-              </div>
-            </div>
-          </article>
-
-        </div>
+<!-- ── Packages by Region ── -->
+<section id="Packages" style="background: var(--sand);">
+  <div class="container">
+    <div class="packages-section-wrapper">
+      <p class="label">Our Packages</p>
+      <h2>Choose Your Destination</h2>
+      <div class="packages-region-grid">
+        <button class="packages-region-btn" onclick="openPkgPage('goa')">
+          <span class="pkg-btn-icon">🏖️</span> Goa <span class="pkg-btn-arrow">→</span>
+        </button>
+        <!-- Add more: -->
+        <!-- <button class="packages-region-btn" onclick="openPkgPage('kerala')">
+          <span class="pkg-btn-icon">🌴</span> Kerala <span class="pkg-btn-arrow">→</span>
+        </button> -->
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
+<!-- PDF Packages Full Page -->
+<div class="pkg-page" id="pkgPage">
+  <div class="pkg-page__nav">
+    <button class="pkg-page__back" onclick="closePkgPage()">← Back</button>
+    <span class="pkg-page__title" id="pkgPageTitle"></span>
+    <span></span>
+  </div>
+  <div class="pkg-page__body">
+    <h2 class="pkg-page__heading" id="pkgPageHeading"></h2>
+    <p class="pkg-page__sub" id="pkgPageSub"></p>
+    <div class="pkg-pdf-grid" id="pkgPdfGrid"></div>
+  </div>
+</div>
 
     <!-- Why Us -->
     <section class="why" id="about" aria-labelledby="why-title">
@@ -1361,13 +1373,8 @@
               <label class="form__label" for="f-tour">Tour of Interest</label>
               <select class="form__select" id="f-tour">
                 <option value="">Select a tour...</option>
-                <option>Himalayan Base Camp Trek</option>
-                <option>Italian Grand Tour</option>
-                <option>Kenya Safari Odyssey</option>
-                <option>Maldivian Overwater Retreat</option>
-                <option>Norwegian Fjords by Kayak</option>
-                <option>Thailand Spirit &amp; Flavour</option>
-                <option>Custom Itinerary</option>
+                <option>Goa</option>
+
               </select>
             </div>
             <div class="form__group">
@@ -1405,19 +1412,10 @@
         <div class="footer__col">
           <h4>Explore</h4>
           <a href="#destinations">Destinations</a>
-          <a href="#tours">All Tours</a>
+          <a href="#Packages">All Packages</a>
           <a href="#about">About Us</a>
           <a href="#testimonials">Stories</a>
           <a href="#contact">Contact</a>
-        </div>
-
-        <div class="footer__col">
-          <h4>Tours</h4>
-          <a href="#tours">Adventure</a>
-          <a href="#tours">Cultural</a>
-          <a href="#tours">Wildlife</a>
-          <a href="#tours">Luxury</a>
-          <a href="#contact">Custom Trips</a>
         </div>
 
         <div class="footer__col">
@@ -1468,12 +1466,7 @@
           <span class="modal__colon">:</span>
           <select class="modal__select" id="bk-location">
             <option value="">Select</option>
-            <option>Nepal – Himalayan Trek</option>
-            <option>Italy – Grand Tour</option>
-            <option>Kenya – Safari Odyssey</option>
-            <option>Maldives – Overwater Retreat</option>
-            <option>Norway – Fjords by Kayak</option>
-            <option>Thailand – Cultural Escape</option>
+            <option>Goa</option>
           </select>
         </div>
 
@@ -1620,26 +1613,6 @@
       document.getElementById('nl-email').value = '';
     }
 
-    // ── Contact Form
-    function submitForm() {
-      const name  = document.getElementById('f-name').value.trim();
-      const email = document.getElementById('f-email').value.trim();
-      const msg   = document.getElementById('f-msg').value.trim();
-
-      if (!name || !email || !msg) {
-        alert('Please fill in all required fields (marked with *).');
-        return;
-      }
-      if (!email.includes('@')) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-      document.getElementById('form-success').classList.add('show');
-      ['f-name','f-lname','f-email','f-phone','f-tour','f-msg'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
-    }
-
     // ── Booking Modal
     const bookingModal  = document.getElementById('bookingModal');
     const modalCloseBtn = document.getElementById('modalClose');
@@ -1672,31 +1645,6 @@
       if (e.key === 'Escape') closeBookingModal();
     });
 
-    async function submitBooking() {
-      const name  = document.getElementById('bk-name').value.trim();
-      const loc   = document.getElementById('bk-location').value;
-      const email = document.getElementById('bk-email').value.trim();
-      const phone = document.getElementById('bk-phone').value.trim();
-      const start = document.getElementById('bk-start').value;
-      const ret   = document.getElementById('bk-return').value;
-      const trav  = document.getElementById('bk-travellers').value;
-
-      if (!name || !loc || !email || !phone || !start || !ret || !trav) {
-        alert('Please fill in all fields before submitting.');
-        return;
-      }
-      if (!email.includes('@')) {
-        alert('Please enter a valid email address.');
-        return;
-      }
-      document.getElementById('modal-success').classList.add('show');
-      ['bk-name','bk-email','bk-phone','bk-start','bk-return'].forEach(id => {
-        document.getElementById(id).value = '';
-      });
-      document.getElementById('bk-location').selectedIndex = 0;
-      document.getElementById('bk-travellers').selectedIndex = 0;
-    }
-
     // ── Active nav link on scroll
     const sections = document.querySelectorAll('section[id], div[id]');
     const navLinks = document.querySelectorAll('.nav__links a:not(.nav__cta)');
@@ -1709,9 +1657,7 @@
         a.style.color = a.getAttribute('href') === '#' + current ? 'var(--copper)' : '';
       });
     });
-
-    const Booking_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzm74v_qtAitVq6e1FqMwABPPoJVpvO9WQGlf-DWzs8vsOYr6d0Hgm6dk7bnCK-cDw/exec';
-    const REVIEW_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwC31RZPHqwbL5nMYWsI3vgtO53OcrEv5CdhpjvL3DQkcijIylBRmnxuP2YRMnoJeBT/exec';
+    
     // ── Rate Us
 const barRatings = { guide: 0, accomm: 0, value: 0, overall2: 0 };
 
@@ -1722,58 +1668,6 @@ function setBarRating(track, key) {
   barRatings[key] = score;
   document.getElementById('bar-' + key).style.width = (score / 5 * 100) + '%';
   document.getElementById('score-' + (key === 'overall2' ? 'overall' : key)).textContent = score.toFixed(1) + ' ★';
-}
-
-async function submitRating() {
-  const overall = document.querySelector('input[name="overall"]:checked');
-  if (!overall) { alert('Please select an overall star rating.'); return; }
-  const anyBar = Object.values(barRatings).some(v => v > 0);
-  if (!anyBar) { alert('Please rate at least one category using the bars.'); return; }
-
-  const reviewData = {
-  overallStars: overall.value,
-  guideRating: barRatings.guide,
-  accommRating: barRatings.accomm,
-  valueRating: barRatings.value,
-  overallRating: barRatings.overall2,
-  comment: document.getElementById('rate-comment').value
-};
-
-fetch("https://script.google.com/macros/s/AKfycby6Pw7RDg-mCi-ChsKgDfHumENLvFUjnPCl0-jldVEtZsqEbNff_mh7j9vOqj3VA97k/exec", {
-  method: "POST",
-  mode: "no-cors",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(reviewData)
-})
-.then(() => {
-console.log("Review submitted successfully");
-})
-.catch((err) => {
-console.error("Error:", err);
-});
-
-  const newScore     = parseFloat(overall.value);
-  const currentCount = parseInt(document.getElementById('avg-count').textContent.replace(/\D/g,''));
-  const currentAvg   = parseFloat(document.getElementById('avg-score').textContent);
-  const newAvg       = ((currentAvg * currentCount) + newScore) / (currentCount + 1);
-  const newCount     = currentCount + 1;
-
-  document.getElementById('avg-score').textContent = newAvg.toFixed(1);
-  document.getElementById('avg-count').textContent = 'Based on ' + newCount.toLocaleString() + ' reviews';
-  const filled = Math.round(newAvg);
-  document.getElementById('avg-stars').textContent = '★'.repeat(filled) + '☆'.repeat(5 - filled);
-
-  document.getElementById('rate-success').classList.add('show');
-  document.getElementById('rate-comment').value = '';
-  document.querySelectorAll('input[name="overall"]').forEach(r => r.checked = false);
-  Object.keys(barRatings).forEach(k => {
-    barRatings[k] = 0;
-    document.getElementById('bar-' + k).style.width = '0%';
-    const el = document.getElementById('score-' + (k === 'overall2' ? 'overall' : k));
-    if (el) el.textContent = '–';
-  });
 }
 
 // ── Contact Form with EmailJS
@@ -1842,74 +1736,242 @@ async function submitForm() {
     btn.disabled = false;
   });
 }
-// ── Destinations Slideshow
-(function() {
-  const slides  = document.querySelectorAll('.dest__slide');
-  const dotsBox = document.getElementById('destDots');
-  const thumbBox = document.getElementById('destThumbs');
+// ── Destinations Card Slideshow
+document.querySelectorAll('.dest__card[data-slides]').forEach(card => {
+  const slides = JSON.parse(card.dataset.slides);
   let current = 0;
   let timer;
 
-  // Build dots and thumbnails
-  slides.forEach((slide, i) => {
-    // Dot
-    const dot = document.createElement('button');
-    dot.className = 'dest__dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('role', 'tab');
-    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
-    dot.addEventListener('click', () => goTo(i));
-    dotsBox.appendChild(dot);
+  // Build HTML
+  card.innerHTML = `
+    <div class="dest__card__slides" id="slides-${Math.random().toString(36).slice(2)}">
+      ${slides.map((s, i) => `
+        <div class="dest__card__slide ${i === 0 ? 'active' : ''}">
+          <img src="${s.img}" alt="${s.name}" loading="lazy" />
+        </div>
+      `).join('')}
+    </div>
+    <div class="dest__card__overlay">
+      <p class="dest__card__region" id="region-${card.dataset.id}">${slides[0].region}</p>
+      <h3 class="dest__card__name" id="name-${card.dataset.id}">${slides[0].name}</h3>
+    </div>
+    <button class="dest__card__arrow dest__card__arrow--prev" aria-label="Previous">&#8592;</button>
+    <button class="dest__card__arrow dest__card__arrow--next" aria-label="Next">&#8594;</button>
+    <div class="dest__card__dots">
+      ${slides.map((_, i) => `
+        <button class="dest__card__dot ${i === 0 ? 'active' : ''}" aria-label="Slide ${i+1}"></button>
+      `).join('')}
+    </div>
+  `;
 
-    // Thumbnail
-    const thumb = document.createElement('div');
-    thumb.className = 'dest__thumb' + (i === 0 ? ' active' : '');
-    const img = slide.querySelector('img');
-    thumb.innerHTML = `<img src="${img.src}" alt="${img.alt}" />`;
-    thumb.addEventListener('click', () => goTo(i));
-    thumbBox.appendChild(thumb);
-  });
+  const slideEls  = card.querySelectorAll('.dest__card__slide');
+  const dotEls    = card.querySelectorAll('.dest__card__dot');
+  const regionEl  = card.querySelector('.dest__card__region');
+  const nameEl    = card.querySelector('.dest__card__name');
+  const prevBtn   = card.querySelector('.dest__card__arrow--prev');
+  const nextBtn   = card.querySelector('.dest__card__arrow--next');
 
   function goTo(n) {
-    // Remove active from current
-    slides[current].classList.remove('active');
-    dotsBox.children[current].classList.remove('active');
-    thumbBox.children[current].classList.remove('active');
-
-    // Set new current
+    slideEls[current].classList.remove('active');
+    dotEls[current].classList.remove('active');
     current = (n + slides.length) % slides.length;
-
-    // Add active to new
-    slides[current].classList.add('active');
-    dotsBox.children[current].classList.add('active');
-    thumbBox.children[current].classList.add('active');
-
-    // Scroll thumb into view
-    thumbBox.children[current].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-
-    // Reset timer
+    slideEls[current].classList.add('active');
+    dotEls[current].classList.add('active');
+    regionEl.textContent = slides[current].region;
+    nameEl.textContent   = slides[current].name;
     clearInterval(timer);
     startAuto();
   }
 
-  function moveSlide(dir) { goTo(current + dir); }
-  window.moveSlide = moveSlide;
+  // Dot clicks
+  dotEls.forEach((dot, i) => dot.addEventListener('click', e => {
+    e.preventDefault(); goTo(i);
+  }));
 
-  function startAuto() {
-    timer = setInterval(() => goTo(current + 1), 5000);
-  }
+  // Arrow clicks
+  prevBtn.addEventListener('click', e => { e.preventDefault(); goTo(current - 1); });
+  nextBtn.addEventListener('click', e => { e.preventDefault(); goTo(current + 1); });
 
+  // Auto play
+  function startAuto() { timer = setInterval(() => goTo(current + 1), 4000); }
   startAuto();
 
   // Pause on hover
-  document.getElementById('destSlideshow').addEventListener('mouseenter', () => clearInterval(timer));
-  document.getElementById('destSlideshow').addEventListener('mouseleave', startAuto);
+  card.addEventListener('mouseenter', () => clearInterval(timer));
+  card.addEventListener('mouseleave', startAuto);
 
-  // Keyboard support
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  goTo(current - 1);
-    if (e.key === 'ArrowRight') goTo(current + 1);
+  // Touch/swipe support for mobile
+  let touchStartX = 0;
+  card.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; });
+  card.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
   });
-})();
+});
+ // Script for Booking and Review In google sheets
+ // ── REPLACE YOUR_URL_HERE with your deployed Apps Script URL ──
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwWfys_cYplMtjfLjPDcHEMj8QgrOuHTqIti4_OBVXat2wpn9ydCAot4TSczQSw7bLGvA/exec';
+
+// ── Submit Booking (Modal) ────────────────────────────────────
+async function submitBooking() {
+  const name  = document.getElementById('bk-name').value.trim();
+  const loc   = document.getElementById('bk-location').value;
+  const email = document.getElementById('bk-email').value.trim();
+  const phone = document.getElementById('bk-phone').value.trim();
+  const start = document.getElementById('bk-start').value;
+  const ret   = document.getElementById('bk-return').value;
+  const trav  = document.getElementById('bk-travellers').value;
+
+  if (!name || !loc || !email || !phone || !start || !ret || !trav) {
+    alert('Please fill in all fields before submitting.'); return;
+  }
+  if (!email.includes('@')) {
+    alert('Please enter a valid email address.'); return;
+  }
+
+  const btn = document.querySelector('.modal__submit');
+  btn.textContent = 'Submitting…';
+  btn.disabled = true;
+
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'booking',
+        name, email, phone,
+        destination: loc,
+        startDate:   start,
+        returnDate:  ret,
+        travellers:  trav
+      })
+    });
+    document.getElementById('modal-success').classList.add('show');
+    ['bk-name','bk-email','bk-phone','bk-start','bk-return'].forEach(id => {
+      document.getElementById(id).value = '';
+    });
+    document.getElementById('bk-location').selectedIndex   = 0;
+    document.getElementById('bk-travellers').selectedIndex = 0;
+  } catch(err) {
+    alert('Something went wrong. Please try again.');
+    console.error(err);
+  }
+
+  btn.textContent = 'Submit';
+  btn.disabled = false;
+}
+
+// ── Submit Review ─────────────────────────────────────────────
+async function submitRating() {
+  const overall = document.querySelector('input[name="overall"]:checked');
+  if (!overall) { alert('Please select an overall star rating.'); return; }
+  const anyBar = Object.values(barRatings).some(v => v > 0);
+  if (!anyBar) { alert('Please rate at least one category using the bars.'); return; }
+
+  try {
+    await fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type:          'review',
+        overallStars:  overall.value,
+        guideRating:   barRatings.guide,
+        accommRating:  barRatings.accomm,
+        valueRating:   barRatings.value,
+        overallRating: barRatings.overall2,
+        comment:       document.getElementById('rate-comment').value
+      })
+    });
+  } catch(err) {
+    console.error('Review submit error:', err);
+  }
+
+  // Update live UI
+  const newScore     = parseFloat(overall.value);
+  const currentCount = parseInt(document.getElementById('avg-count').textContent.replace(/\D/g,''));
+  const currentAvg   = parseFloat(document.getElementById('avg-score').textContent);
+  const newAvg       = ((currentAvg * currentCount) + newScore) / (currentCount + 1);
+  const newCount     = currentCount + 1;
+
+  document.getElementById('avg-score').textContent = newAvg.toFixed(1);
+  document.getElementById('avg-count').textContent = 'Based on ' + newCount.toLocaleString() + ' reviews';
+  const filled = Math.round(newAvg);
+  document.getElementById('avg-stars').textContent = '★'.repeat(filled) + '☆'.repeat(5 - filled);
+
+  document.getElementById('rate-success').classList.add('show');
+  document.getElementById('rate-comment').value = '';
+  document.querySelectorAll('input[name="overall"]').forEach(r => r.checked = false);
+  Object.keys(barRatings).forEach(k => {
+    barRatings[k] = 0;
+    document.getElementById('bar-' + k).style.width = '0%';
+    const el = document.getElementById('score-' + (k === 'overall2' ? 'overall' : k));
+    if (el) el.textContent = '–';
+  });
+}
+// ── Packages PDF System ──────────────────────────────
+const packagesData = {
+  goa: {
+    title: '🏖️ Goa Packages',
+    sub: 'Choose a package to view or download the full itinerary PDF.',
+    pdfs: [
+      { name: '2 Adult & 1 Child Goa Package 7 Days',              file: 'packages/2 Adult & 1child Goa Package 7 Days Dudh sagar.pdf' },
+      { name: '2 Adult Cruise Party & Sports Activities 4 Days',   file: 'packages/2 Adult Cruise party & Sports activities 4 Days.pdf' },
+      { name: '2 Adult Dinner Cruise Party 4 Days',                file: 'packages/2 Adult Dinner Cruise Party 4 Days.pdf' },
+      { name: '2 Adult Goa Package 2 Days',                        file: 'packages/2 Adult Goa Package 2 Days.pdf' },
+      { name: '2 Adult Goa Package 4 Days',                        file: 'packages/2 Adult Goa Package 4 Days.pdf' },
+      { name: '2 Adult Goa Package for 3 Days',                    file: 'packages/2 Adult Goa Package for 3 Days.pdf' },
+      { name: '2 Adult Package Cruise & Scuba Diving',             file: 'packages/2 Adult Package Cruise , scuba Diving.pdf' },
+      { name: '4 Adults Goa Package for 5 Days with Old North Goa',file: 'packages/4 Adults Goa Package for 5 Days with Old North Goa.pdf' },
+      { name: '6 Adult Goa Package 5 Days',                        file: 'packages/6 Adult Goa Package 5 Days.pdf' },
+      { name: '8 Adult Goa Package 3 Days',                        file: 'packages/8 Adul Goa Package 3 days.pdf' },
+      { name: 'Goa & Gokarna 4 Days 4 Adult',                      file: 'packages/Goa & Gokarna 4 Days 4 adult.pdf' },
+      { name: 'Goa & Gokarna Scuba Diving 3 Adult 4 Days',         file: 'packages/Goa & Gokarna scuba Diving 3 Adult 4 Days.pdf' },
+      { name: 'Goa Package 5 Days 2 Adult 3 Child',                file: 'packages/Goa Package 5 Days 2 Adult 3 Child.pdf' },
+      { name: 'Goa Package for 4 Days with Scuba Diving',          file: 'packages/Goa Package for 4 Days with scuba Diving.pdf' },
+      { name: 'Goa Package for 5 Days with Grand Island Trip',     file: 'packages/Goa Package for 5 Days with Grand Island Trip.pdf' },
+      { name: 'Goa Package for 5 Days with Old South Goa 4 Adults',file: 'packages/Goa Package for 5 Days with Old south Goa 4 Adults.pdf' },
+      { name: 'Goa Package Only Hotel Pick & Drop 3 Adult',        file: 'packages/Goa Package Only Hotel pick drop 3 Adult.pdf' },
+      { name: 'Honeymoon Package 4 Days',                          file: 'packages/Honeymoon package 4 Days.pdf' },
+      { name: 'Honeymoon Package 5 Days',                          file: 'packages/Honeymoon package 5 Days.pdf' },
+    ]
+  }
+};
+
+function openPkgPage(region) {
+  const data = packagesData[region];
+  if (!data) return;
+
+  document.getElementById('pkgPageTitle').textContent  = data.title;
+  document.getElementById('pkgPageHeading').textContent = data.title;
+  document.getElementById('pkgPageSub').textContent     = data.sub;
+
+  const grid = document.getElementById('pkgPdfGrid');
+  grid.innerHTML = data.pdfs.map(pdf => `
+    <div class="pkg-pdf-card">
+      <div class="pkg-pdf-card__icon">📄</div>
+      <div class="pkg-pdf-card__name">${pdf.name}</div>
+      <div class="pkg-pdf-card__actions">
+        <a class="pkg-pdf-card__open" href="${pdf.file}" target="_blank" rel="noopener">
+          👁 View
+        </a>
+        <a class="pkg-pdf-card__dl" href="${pdf.file}" download="${pdf.name}.pdf">
+          ⬇ Save
+        </a>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('pkgPage').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  window.scrollTo(0, 0);
+}
+
+function closePkgPage() {
+  document.getElementById('pkgPage').classList.remove('open');
+  document.body.style.overflow = '';
+}
   </script>
 
 </body>
