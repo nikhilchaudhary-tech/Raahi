@@ -1142,7 +1142,7 @@
       <p class="label">Our Packages</p>
       <h2>Choose Your Destination</h2>
       <div class="packages-region-grid">
-        <button class="packages-region-btn" onclick="openPkgPage('goa')">
+        <button class="packages-region-btn" onclick="openPkgModal('goa')">
           <span class="pkg-btn-icon">🏖️</span> Goa <span class="pkg-btn-arrow">→</span>
         </button>
         <!-- Add more: -->
@@ -1157,7 +1157,7 @@
 <!-- PDF Packages Full Page -->
 <div class="pkg-page" id="pkgPage">
   <div class="pkg-page__nav">
-    <button class="pkg-page__back" onclick="closePkgPage()">← Back</button>
+    <button class="pkg-page__back" onclick="closePkgModal()">← Back</button>
     <span class="pkg-page__title" id="pkgPageTitle"></span>
     <span></span>
   </div>
@@ -1442,7 +1442,7 @@
 
   <!-- ── Floating Buttons ───────────────────────── -->
   <div class="float-btns" aria-label="Quick actions">
-    <a class="float-btn float-btn--wa" href="https://wa.me/18009263358" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">💬</a>
+    <a class="float-btn float-btn--wa" href="https://wa.me/918859951833?text=Hi%20RaahiRoutes%2C%20I%20want%20to%20book%20a%20tour!" target="_blank" rel="noopener" aria-label="Chat on WhatsApp" title="Chat on WhatsApp">💬</a>
     <button class="float-btn float-btn--top" id="backToTop" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
   </div>
 
@@ -1939,13 +1939,13 @@ const packagesData = {
   }
 };
 
-function openPkgPage(region) {
+function openPkgModal(region) {
   const data = packagesData[region];
   if (!data) return;
 
-  document.getElementById('pkgPageTitle').textContent  = data.title;
+  document.getElementById('pkgPageTitle').textContent   = data.title;
   document.getElementById('pkgPageHeading').textContent = data.title;
-  document.getElementById('pkgPageSub').textContent     = data.sub;
+  document.getElementById('pkgPageSub').textContent     = data.sub || '';
 
   const grid = document.getElementById('pkgPdfGrid');
   grid.innerHTML = data.pdfs.map(pdf => `
@@ -1953,24 +1953,44 @@ function openPkgPage(region) {
       <div class="pkg-pdf-card__icon">📄</div>
       <div class="pkg-pdf-card__name">${pdf.name}</div>
       <div class="pkg-pdf-card__actions">
-        <a class="pkg-pdf-card__open" href="${pdf.file}" target="_blank" rel="noopener">
-          👁 View
-        </a>
-        <a class="pkg-pdf-card__dl" href="${pdf.file}" download="${pdf.name}.pdf">
-          ⬇ Save
-        </a>
+        <a class="pkg-pdf-card__open" href="${pdf.file}" target="_blank" rel="noopener">👁 View</a>
+        <a class="pkg-pdf-card__dl"   href="${pdf.file}" download="${pdf.name}.pdf">⬇ Save</a>
+        <button class="pkg-pdf-card__open"
+          onclick="openBookingFromPackage('${pdf.name.replace(/'/g, "")}')"
+          style="background:var(--copper);color:#fff;border:none;cursor:pointer;">
+          📅 Book Now
+        </button>
       </div>
     </div>
   `).join('');
 
   document.getElementById('pkgPage').classList.add('open');
   document.body.style.overflow = 'hidden';
-  window.scrollTo(0, 0);
 }
 
 function closePkgPage() {
   document.getElementById('pkgPage').classList.remove('open');
   document.body.style.overflow = '';
+}
+
+function openBookingFromPackage(packageName) {
+  closePkgPage();
+
+  const locSelect = document.getElementById('bk-location');
+  for (let i = 0; i < locSelect.options.length; i++) {
+    if (locSelect.options[i].text.toLowerCase().includes('goa')) {
+      locSelect.selectedIndex = i;
+      break;
+    }
+  }
+
+  document.getElementById('bookingModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+
+  document.getElementById('modal-title').innerHTML =
+    'Book Your Tour<br><small style="font-size:.75rem;font-weight:400;color:var(--copper);">📄 ' + packageName + '</small>';
+
+  setTimeout(() => document.getElementById('bk-name').focus(), 100);
 }
   </script>
 
